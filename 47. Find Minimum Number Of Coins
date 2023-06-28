@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+int findMinimumCoins(int amount) 
+{
+    // Write your code here
+    int cnt = 0;
+    vector<int>money = {1000,500,100,50,20,10,5,2,1};
+  //  int n = 8;
+    while(amount){
+        for(auto it: money){
+            if(amount>=it){
+                amount = amount- it;
+                break;
+            }
+        }
+        cnt++;
+    }
+    return cnt;
+}
