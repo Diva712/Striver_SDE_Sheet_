@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+void f(int index , vector<int>&vec , vector<int>&arr , vector<vector<int>>&ans) {
+    ans.push_back(vec);
+    for(int i=index ; i<arr.size() ; i++){
+        if(i!=index && arr[i]==arr[i-1]){
+            continue;
+        }
+        vec.push_back(arr[i]);
+        f(i+1 , vec, arr, ans);
+        vec.pop_back();
+        
+    }
+}
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+    // Write your code here.
+    vector<int>vec;
+    vector<vector<int>> ans;
+    sort(arr.begin() , arr.end());
+    f(0,vec,arr,ans);
+    return ans;
+}
