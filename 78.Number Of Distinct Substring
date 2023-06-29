@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+struct Node{
+  Node*link[26];
+  
+  bool isContains(char ch){
+      return (link[ch-'a']!=NULL);
+  }  
+
+  void put (char ch , Node*node){
+      link[ch-'a'] = node;
+  }
+
+  Node* get (char ch){
+      return link[ch-'a'];
+  }
+};
+int distinctSubstring(string &word) {
+    //  Write your code here.
+    Node*root = new Node();
+    int cnt = 0;
+    for(int i=0; i<word.length(); i++){
+        Node*node = root;
+        for(int j=i; j<word.length(); j++){
+            if(!node->isContains(word[j])){
+                node->put(word[j] , new Node());
+                cnt++;
+            }
+            node = node->get(word[j]);
+        }
+    }
+    return cnt;
+}
