@@ -1,0 +1,108 @@
+#include <bits/stdc++.h> 
+struct Node{
+    Node*link[26];
+    bool flag = false;
+    int in_pre = 0;
+    int end = 0;
+
+    bool isContains(char ch){
+        return (link[ch-'a']!=NULL);
+    }
+    void put (char ch , Node*node){
+        link[ch-'a'] = node;
+    }
+    void increase_prefix(){
+        in_pre++;
+    }
+    void end_with(){
+        end++;
+    }
+
+    void delete_end(){
+        end--;
+    }
+
+    void delete_prefix(){
+        in_pre--;
+    }
+
+    int get_prefix(){
+        return in_pre;
+    }
+
+    int get_end(){
+        return end;
+    }
+    Node* get(char ch){
+        return link[ch-'a'];
+    }
+
+};
+class Trie{
+    private:
+        Node*root;
+    public:
+
+    Trie(){
+        // Write your code here.
+        root = new Node();
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        Node*node = root ;
+        for(int i=0; i<word.length() ; i++){
+            if(!node->isContains(word[i])){
+                node->put(word[i] , new Node());
+                
+            }
+            node = node->get(word[i]);
+            node->increase_prefix();
+            
+        }
+        return node->end_with();
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+        Node*node = root;
+        for(int i=0; i<word.length(); i++){
+            if(node->isContains(word[i])){
+                node = node->get(word[i]);
+            }
+            else{
+                return 0;
+            }
+        }
+       return  node->get_end();
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        Node*node = root;
+        for(int i=0; i<word.length(); i++){
+            if(node->isContains(word[i])){
+                node = node->get(word[i]);
+            }
+            else{
+                return 0;
+            }
+        }
+        return node->get_prefix();
+    }
+
+    void erase(string &word){
+        // Write your code here.
+        Node*node = root;
+        for(int i=0; i<word.length(); i++){
+            if(node->isContains(word[i])){
+                node = node->get(word[i]);
+                node->delete_prefix();
+            }
+            else{
+                return ;
+            }
+        }
+        node->delete_end();
+    }
+};
