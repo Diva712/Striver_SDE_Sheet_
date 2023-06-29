@@ -1,0 +1,87 @@
+#include <bits/stdc++.h> 
+struct Node{
+    Node*link[26];
+    bool flag = false;
+
+    bool isContains(char ch){
+        return (link[ch-'a']!=NULL);
+    }
+
+    void put(char ch , Node*node){
+        link[ch-'a'] = node;
+    }
+
+    Node* get(char ch){
+        return link[ch-'a'];
+    }
+
+    bool setEnd(){
+        flag = true;
+    }
+
+    bool isEnd(){
+        return flag;
+    }
+
+
+
+};
+class Trie{
+    private:
+    Node*root;
+
+    public:
+    Trie(){
+        root = new Node();
+    }
+     void insert(string word){
+        Node*node = root;
+        for(int i=0; i<word.length(); i++){
+            if(!node->isContains(word[i])){
+                node->put(word[i] , new Node());
+            }
+            node = node->get(word[i]);
+        }
+        node->setEnd();
+    }
+
+    bool checkifexist(string word){
+        Node*node = root;
+        for(auto &it : word){
+            if(node->isContains(it)){
+                node = node->get(it);
+                if(node->isEnd()==false){
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+string completeString(int n, vector<string> &a){
+    // Write your code here.
+    Trie trie;
+    for(auto &it: a){
+        trie.insert(it);
+    }
+    string longest = "";
+    for(auto &it : a){
+        if(trie.checkifexist(it)){
+            if(it.length() > longest.length()){
+                longest = it;
+            }
+            else if(it.length()==longest.length() && it<longest){
+                longest = it;
+            }
+        }
+    }
+
+    if(longest == ""){
+        return "None";
+    }
+    return longest;
+}
