@@ -1,0 +1,50 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+bool getpath (TreeNode<int>*node , vector<int>&arr , int a){
+    if(node==NULL){
+        return false;
+    }
+    arr.push_back(node->data);
+    if(node->data == a){
+        return true;
+    }
+    if(getpath(node->left , arr, a)|| getpath(node->right , arr , a)){
+        return true;
+    }
+    arr.pop_back();
+    return false;
+}
+int lowestCommonAncestor(TreeNode<int> *root, int x, int y)
+{
+	//    Write your code here
+    vector<int>vec1;
+    vector<int>vec2;
+    getpath(root , vec1 , x);
+    getpath(root , vec2 , y);
+    int i;
+    int size = min(vec1.size() , vec2.size());
+    for(i=0; i<size; i++){
+        if(vec1[i]!=vec2[i]){
+            break;
+        }
+      }
+      return vec1[i-1];
+ }
