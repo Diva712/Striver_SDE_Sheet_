@@ -1,0 +1,38 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+int find_max(TreeNode<int>*root , int &maxi){
+    if(root==0){
+        return 0;
+    }
+
+    int left = find_max(root->left , maxi);
+    int right = find_max(root->right , maxi);
+
+    maxi = max(maxi , left+right);
+    
+    return (1+max(left,right));
+}
+int diameterOfBinaryTree(TreeNode<int> *root)
+{
+	// Write Your Code Here.
+    int diameter = 0;
+    find_max(root , diameter);
+    return diameter;
+}
