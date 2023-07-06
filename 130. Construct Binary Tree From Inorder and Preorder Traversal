@@ -1,0 +1,47 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+TreeNode<int> *buildtree(vector<int>&inorder , int in_start , int in_end , vector<int>&preorder , int pre_start ,int pre_end , map<int,int>&mpp){
+    TreeNode<int>* root = new TreeNode<int>(preorder[pre_start]);
+    if(pre_start>pre_end || in_start>in_end)
+    {
+        return NULL;
+    }
+
+    int in_root = mpp[root->data];
+    int diff = in_root - in_start;
+    root->left = buildtree(inorder , in_start , in_root-1 , preorder , pre_start+1 , pre_start + diff , mpp);
+    root->right = buildtree(inorder , in_root + 1 , in_end , preorder , pre_start + diff + 1 , pre_end , mpp);
+    
+    return root;
+}
+TreeNode<int> *buildBinaryTree(vector<int> &inorder, vector<int> &preorder)
+{
+	//    Write your code here
+    map<int,int>mpp;
+    for(int i=0; i<inorder.size(); i++){
+        mpp[inorder[i]] = i;
+    }
+    
+    TreeNode<int>*root = buildtree(inorder , 0
+     , inorder.size()-1 , preorder , 0 , preorder.size()-1 , mpp);
+     
+     return root;
+}
