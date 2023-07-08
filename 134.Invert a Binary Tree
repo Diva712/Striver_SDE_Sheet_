@@ -1,0 +1,76 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+bool helper (stack<TreeNode<int>*>&st , TreeNode<int>*root , TreeNode<int>*leaf){
+    st.push(root);
+    if(root->left==NULL && root->right==NULL){
+        if(root->data == leaf->data){
+            return true;
+        }
+        else{
+            st.pop();
+            return false;
+        }
+    }
+
+    if(root->left!=NULL){
+        if(helper(st , root->left , leaf))
+            return true;
+    }
+
+    if(root->right!=NULL){
+        if(helper(st,root->right,leaf))
+            return true;
+    }
+    
+    st.pop();
+    return false;
+}
+TreeNode<int> * invertBinaryTree(TreeNode<int> *root, TreeNode<int> *leaf)
+{
+	// Write your code here.
+    stack<TreeNode<int>*>st;
+    if(root==NULL){
+        return NULL;
+    }
+
+    helper(st,root,leaf);
+    
+   TreeNode<int>* parent = st.top();
+   st.pop();
+   TreeNode<int>*node = parent;
+
+   while(!st.empty()){
+       TreeNode<int>*curr = st.top();
+       st.pop();
+       if(curr->right == parent){
+           curr->right = curr->left;
+           curr->left = NULL;
+           parent->left = curr;
+       }
+       else{
+           curr->left = NULL;
+           parent->left = curr;
+       }
+
+       parent = parent->left;
+   }
+    return node;
+}
