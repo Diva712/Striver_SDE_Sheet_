@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+/************************************************************
+    Following is the Binary Search Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+void fun (TreeNode<int>*root , vector<int>&ans){
+    if(root!=NULL){
+    fun(root->left , ans);
+    ans.push_back(root->data);
+    fun(root->right , ans);
+    }
+}
+vector<int> solve(TreeNode<int>*root){
+    vector<int>ans;
+    fun(root , ans);
+    return ans;
+}
+int KthLargestNumber(TreeNode<int>* root, int k) 
+{
+    // Write your code here.
+   vector<int>inorder = solve(root);
+   if(k>inorder.size()){
+       return -1;
+   }
+   int n = inorder.size();
+   int x = n-k;
+   return inorder[x];
+}
