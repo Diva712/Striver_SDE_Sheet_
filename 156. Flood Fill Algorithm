@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+
+
+
+void dfs (vector<vector<int>>&image , vector<vector<int>>&ans , int row , int col , int c , int nc , int n , int m){
+    ans[row][col] = nc;
+    int delrow[] = {-1,1,0,0};
+    int delcol[] = {0,0,-1,1};
+    for(int i=0; i<4; i++){
+        int nrow = row + delrow[i];
+        int ncol = col + delcol[i];
+        if(nrow<n && ncol<m && nrow>=0 && ncol>=0 && image[nrow][ncol]==c && ans[nrow][ncol]!=nc){
+            dfs(image , ans , nrow , ncol , c , nc , n , m);
+        }
+    }
+}
+
+
+
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+    // Write your code here.
+    vector<vector<int>>ans = image;
+    int n = image.size();
+    int m = image[0].size();
+    int color = image[x][y];
+    dfs(image , ans , x , y ,color , newColor , n , m );
+    return ans;
+}
