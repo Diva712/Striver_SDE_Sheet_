@@ -1,0 +1,71 @@
+void update(int **arr, vector<vector<bool>> &isVisited, int curr_row, int curr_col, int n, int m)
+
+{
+
+
+
+ 
+
+   isVisited[curr_row][curr_col] = true;
+
+ 
+
+   int drow[]={0,+1,0,-1,+1,-1,+1,-1};
+
+   int dcol[]={+1,0,-1,0,+1,-1,-1,+1};
+
+ 
+
+   for(int i=0;i<8;i++){
+
+      int nrow=curr_row+drow[i];
+
+      int ncol=curr_col+dcol[i];
+
+ 
+
+      if(nrow<n && ncol<m && nrow>=0 && ncol>=0 && !isVisited[nrow][ncol] && arr[nrow][ncol]){
+
+         update(arr, isVisited, nrow,ncol, n, m);
+
+      }
+
+   }
+
+   
+
+}
+
+int getTotalIslands(int **arr, int n, int m)
+
+{
+
+   vector<vector<bool>> isVisited(n, vector<bool>(m, false));
+
+   int count = 0;
+
+   for(int i = 0; i < n; i++)
+
+   {
+
+      for(int j = 0; j < m; j++)
+
+      {
+
+         if(arr[i][j] == 1 && !isVisited[i][j])
+
+         {
+
+               update(arr, isVisited, i, j, n, m);
+
+               count++;
+
+         }
+
+      }
+
+   }
+
+   return count;
+
+}
