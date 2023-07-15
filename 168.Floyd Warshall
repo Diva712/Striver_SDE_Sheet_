@@ -1,0 +1,34 @@
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    // Write your code here.
+    vector<vector<int>>mat(n+1 , vector<int>(n+1));
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            if(i==j){
+                mat[i][j] = 0;
+            }
+            else{
+                mat[i][j] = INT_MAX;
+            }
+        }
+    }
+
+    for(auto it:edges){
+        mat[it[0]][it[1]] = it[2];
+    }
+
+
+    for(int k=1; k<=n; k++){
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=n; j++){
+                if(i!=k && j!=k && mat[i][k]!=INT_MAX && mat[k][j]!=INT_MAX){
+                    mat[i][j] = min(mat[i][j] , mat[i][k] + mat[k][j]);
+                }
+            }
+        }
+    }
+    
+    if(mat[src][dest]==INT_MAX){
+        return 1e9;
+    }
+    return mat[src][dest];
+}
