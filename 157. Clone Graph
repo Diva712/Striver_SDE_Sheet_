@@ -1,0 +1,56 @@
+#include <bits/stdc++.h> 
+/***************************************************************************
+
+	Class for graph node is as follows:
+
+	class graphNode
+	{
+		public:
+    		int data;
+    	vector<graphNode *> neighbours;
+    	graphNode()
+    	{
+        	data = 0;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val)
+    	{
+        	data = val;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val, vector<graphNode *> neighbours)
+    	{
+        	data = val;
+        	this->neighbours = neighbours;
+    	}
+	};
+
+******************************************************************************/
+void DFS (graphNode*node , graphNode*clone_node , unordered_map<graphNode*,graphNode*>&mpp){
+	for(auto it : node->neighbours){
+		if(mpp.find(it)==mpp.end()){
+			graphNode*clone = new graphNode(it->data);
+			mpp[it] = clone;
+			clone_node->neighbours.push_back(clone);
+			DFS(it,clone,mpp);
+		}
+		else{
+			clone_node->neighbours.push_back(mpp[it]);
+		}
+	}
+}
+graphNode *cloneGraph(graphNode *node)
+{
+	unordered_map<graphNode* , graphNode*>mpp;
+    // Write your code here.
+	if(node == NULL){
+		return NULL;
+	}
+	
+	graphNode*clone_Node = new graphNode(node->data);
+	mpp[node] = clone_Node;
+	DFS(node , clone_Node , mpp);
+
+	return clone_Node;
