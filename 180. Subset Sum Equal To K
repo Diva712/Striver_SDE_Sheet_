@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+bool solve(int ind, int k, vector<int> &arr, vector<vector<int>> &dp) {
+  if (k == 0)
+    return true;
+
+  if (ind == 0)
+    return arr[0] == k;
+
+  if (dp[ind][k] != -1)
+    return dp[ind][k];
+
+  int notTake = solve(ind - 1, k, arr, dp);
+  int take = false;
+  if (arr[ind] <= k)
+    take = solve(ind - 1, k - arr[ind], arr, dp);
+
+  dp[ind][k] = take or notTake;
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+     vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+  return solve(n - 1, k, arr, dp);
+}
