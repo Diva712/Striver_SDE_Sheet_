@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+string writeAsYouSpeak(int n) 
+{
+	// Write your code here.
+	if(n==1){
+		return "1";
+	}
+	string res="";
+	string s = writeAsYouSpeak(n-1);
+	for(int i=0; i<s.length(); i++){
+		int cnt = 1;
+		while(i<s.length()-1 && s[i]==s[i+1]){
+			cnt++;
+			i++;
+		}
+		res = res + to_string(cnt);
+		res = res + s[i];
+	}
+	return res;
+	
+}
